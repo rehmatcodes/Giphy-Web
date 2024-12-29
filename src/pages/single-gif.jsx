@@ -37,11 +37,27 @@ const GifPage = () => {
   }, []);
 
   const shareGif = () => {
-    // Assignment
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Check out this GIF!",
+          text: "I found this amazing GIF. Take a look!",
+          url: gifUrl,
+        })
+        .then(() => alert("GIF shared successfully!"))
+        .catch((error) => console.error("Error sharing GIF:", error));
+    } else {
+      // Fallback to copy the GIF URL
+      navigator.clipboard.writeText(gifUrl);
+      alert("Sharing is not supported on this device. URL copied to clipboard.");
+    }
   };
 
+  // Copy embed code for the GIF
   const EmbedGif = () => {
-    // Assignment
+    const embedCode = `<iframe src="${gifUrl}" width="480" height="270" frameborder="0" allowfullscreen></iframe>`;
+    navigator.clipboard.writeText(embedCode);
+    alert("Embed code copied to clipboard!");
   };
 
   return (
